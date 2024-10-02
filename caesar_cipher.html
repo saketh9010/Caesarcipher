@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Caesar Cipher</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #001f3f; /* Dark blue background */
+            color: #fff; /* White text */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            height: 200vh; /* Increased height to allow scrolling */
+            margin: 0;
+            padding-bottom: 20px;
+        }
+        h1 {
+            color: #39CCCC; /* Light blue */
+        }
+        img {
+            width: 200px; /* Adjust the size as necessary */
+            margin-bottom: 20px;
+            border-radius: 10px;
+        }
+        input, button {
+            margin: 10px 0;
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 5px;
+            border: 2px solid #39CCCC; /* Light blue border */
+        }
+        input {
+            width: 300px;
+            background-color: #0074D9; /* Blue input background */
+            color: #fff; /* White text in input */
+        }
+        button {
+            background-color: #39CCCC; /* Light blue button */
+            color: black;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #fff; /* White on hover */
+            color: #001f3f; /* Dark blue text on hover */
+            transition: background-color 0.3s, color 0.3s; /* Smooth transition */
+        }
+        .result, .output-message {
+            margin-top: 20px;
+            font-weight: bold;
+            font-size: 18px;
+            color: #39CCCC; /* Light blue for the result text */
+        }
+    </style>
+</head>
+<body>
+
+<!-- Add the first image here -->
+<img src="caesar%20cipher.jpeg" alt="Caesar Cipher Wheel">
+
+<h1>Caesar Cipher</h1>
+<input type="text" id="inputText" placeholder="Enter your text">
+<input type="number" id="shiftNumber" placeholder="Shift number (1-25)" min="1" max="25">
+
+<select id="action">
+    <option value="encrypt">Encrypt</option>
+    <option value="decrypt">Decrypt</option>
+</select>
+
+<button id="executeButton">Execute</button>
+<div class="result" id="result"></div>
+<div class="output-message" id="outputMessage"></div>
+
+<!-- Add some spacing before the second image -->
+<div style="margin-top: 200px;"></div>
+<p> CeasarCipher Example:-</p>
+
+<!-- Add the second image here -->
+<img src="example.png" alt="Cipher Output Example" style="width: 100vw; height: 100vh; object-fit: contain;">
+<!-- Add the text below the image -->
+<div style="background-color: white; color: black; padding: 20px; margin-top: 20px; width: 80%; text-align: justify;">
+    <p>
+        In cryptography, a Caesar cipher, also known as Caesar's cipher, the shift cipher, Caesar's code, or Caesar shift,
+        is one of the simplest and most widely known encryption techniques. It is a type of substitution cipher in which each letter in the plaintext is replaced
+        by a letter some fixed number of positions down the alphabet. For example, with a left shift of 3, D would be replaced by A, E would become B, and so on.
+        The method is named after Julius Caesar, who used it in his private correspondence.
+    </p>
+    <p>
+        The encryption step performed by a Caesar cipher is often incorporated as part of more complex schemes, such as the Vigenère cipher,
+        and still has modern application in the ROT13 system. As with all single-alphabet substitution ciphers, the Caesar cipher is easily broken
+        and in modern practice offers essentially no communications security.
+    </p>
+</div>
+
+
+<script>
+    const alphabets = 'abcdefghijklmnopqrstuvwxyz';
+    const executeButton = document.getElementById('executeButton');
+    const resultDiv = document.getElementById('result');
+    const outputMessageDiv = document.getElementById('outputMessage');
+
+    executeButton.addEventListener('click', () => {
+        const text = document.getElementById('inputText').value.toLowerCase();
+        const shift = parseInt(document.getElementById('shiftNumber').value);
+        const action = document.getElementById('action').value;
+
+        if (!text || isNaN(shift) || shift < 1 || shift > 25) {
+            resultDiv.textContent = 'Please enter valid text and shift number.';
+            outputMessageDiv.textContent = ''; // Clear previous output message
+            return;
+        }
+
+        let result = '';
+        for (let char of text) {
+            if (char === ' ') {
+                result += ' ';
+            } else {
+                const index = alphabets.indexOf(char);
+                let newIndex = action === 'encrypt' ? index + shift : index - shift;
+                if (newIndex >= alphabets.length) newIndex -= alphabets.length;
+                if (newIndex < 0) newIndex += alphabets.length;
+                result += alphabets[newIndex];
+            }
+        }
+
+        resultDiv.textContent = action === 'encrypt' ? 'Encrypted message is:' : 'Decrypted message is:';
+        outputMessageDiv.textContent = result;
+    });
+</script>
+<footer class="bg-black text-center py-6">
+    <p>&copy; 2024 Kothmir Saketh
+</footer>
+</body>
+</html>
